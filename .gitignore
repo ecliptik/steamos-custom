@@ -9,13 +9,13 @@ efi/
 firmware/
 install/
 install.386/
-install.amd/j
+install.amd/
 md5sum.txt
 pics/
 pool/
 post_install.sh
 README.html
 README.mirrors.html
-README.mirrors.tx/
+README.mirrors.txt
 README.txt
 recovery/
