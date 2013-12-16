@@ -99,6 +99,8 @@ d-i pkgsel/upgrade select none
 popularity-contest popularity-contest/participate boolean false
 
 ### Partitioning
+#Install additional udebs and get the first disk automatically
+d-i partman/early_command string udpkg --unpack /cdrom/udebs/*.udeb ; debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
 ### Partman
 d-i partman/confirm boolean true
 d-i partman/confirm_nochanges boolean true
@@ -126,7 +128,6 @@ d-i partman-auto/automatically_partition select true
 d-i partman-auto-lvm/guided_size string max
 d-i partman/confirm_nooverwrite boolean true
 d-i partman/device_remove_lvm_span boolean true
-d-i partman/early_command string debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
 d-i partman-auto/expert_recipe string                         \
 boot-root ::                                                  \
               512 512 512 ext4                                \
