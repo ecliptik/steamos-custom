@@ -98,10 +98,15 @@ d-i pkgsel/upgrade select none
 # popular and include it on CDs.
 popularity-contest popularity-contest/participate boolean false
 
+#d-i finish-install/reboot_in_progress note
+d-i preseed/late_command string /cdrom/steam-custom-post_install.sh
+
 ### Partitioning
 #Install additional udebs and get the first disk automatically
-d-i partman/early_command string udpkg --unpack /cdrom/udebs/*.udeb ; debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
+d-i partman/early_command string udpkg --unpack /cdrom/udebs/*.udeb ; udpkg --unpack /cdrom/pool/main/l/linux/*.udeb ; insmod /lib/modules/*/kernel/drivers/md/* ; debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
 ### Partman
+d-i partman-md/confirm boolean true
+d-i partman-md/device_remove_md boolean true
 d-i partman/confirm boolean true
 d-i partman/confirm_nochanges boolean true
 d-i partman/choose_partition \
@@ -119,7 +124,8 @@ d-i partman-lvm/confirm_nooverwrite boolean true
 d-i partman-auto/purge_lvm_from_device boolean true
 
 ### Custom LVM Recipe
-d-i partman-auto/method string lvm
+#d-i partman-auto/method string lvm
+d-i partman-auto/method string regular
 d-i partman/confirm_write_new_label	boolean true
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/choose_partition select finish
@@ -130,6 +136,43 @@ d-i partman/confirm_nooverwrite boolean true
 d-i partman/device_remove_lvm_span boolean true
 d-i partman-auto/expert_recipe string                         \
 boot-root ::                                                  \
+#              512 512 512 ext4                                \
+#                      $primary{ }                             \
+#                      $bootable{ }                            \
+#                      method{ format } format{ }              \
+#                      use_filesystem{ } filesystem{ ext4 }    \
+#                      label { boot }                          \
+#                      mountpoint{ /boot }                     \
+#              .                                               \
+#              100 100000 -1 lvm                               \
+#                      $primary{ } $defaultignore{ }           \
+#                      method{ lvm } vg_name{ steamVG }        \
+#              .                                               \
+#              10240 10240 10240 ext4                          \
+#                      $lvmok{ } in_vg{ steamVG } lv_name{ systemLV }  \
+#                      method{ format } format{ }              \
+#                      use_filesystem{ } filesystem{ ext4 }    \
+#                      label { system }                        \
+#                      mountpoint{ / }                         \
+#              .                                               \
+#              10240 10240 10240 ext4                          \
+#                      $lvmok{ } in_vg{ steamVG } lv_name{ recoveryLV }  \
+#                      method{ format } format{ }              \
+#                      use_filesystem{ } filesystem{ ext4 }    \
+#                      label { recovery }                      \
+#                      mountpoint{ /boot/recovery }            \
+#              .                                               \
+#              10240 10240 10240 linux-swap                    \
+#                      $lvmok{ } in_vg{ steamVG } lv_name{ swapLV }  \
+#                      method{ swap } format{ }                \
+#              .                                               \
+#              10240 128 100000000 ext4                        \
+#                      $lvmok{ } in_vg{ steamVG } lv_name{ steamLV }  \
+#                      method{ format } format{ }              \
+#                      use_filesystem{ } filesystem{ ext4 }    \
+#                      label { steam }                         \
+#                      mountpoint{ /home }                     \
+#              .                                               \
               512 512 512 ext4                                \
                       $primary{ }                             \
                       $bootable{ }                            \
@@ -138,35 +181,24 @@ boot-root ::                                                  \
                       label { boot }                          \
                       mountpoint{ /boot }                     \
               .                                               \
-              100 100000 -1 lvm                               \
-                      $primary{ } $defaultignore{ }           \
-                      method{ lvm } vg_name{ steamVG }        \
-              .                                               \
               10240 10240 10240 ext4                          \
-                      $lvmok{ } in_vg{ steamVG } lv_name{ systemLV }  \
                       method{ format } format{ }              \
                       use_filesystem{ } filesystem{ ext4 }    \
                       label { system }                        \
                       mountpoint{ / }                         \
               .                                               \
               10240 10240 10240 ext4                          \
-                      $lvmok{ } in_vg{ steamVG } lv_name{ recoveryLV }  \
                       method{ format } format{ }              \
                       use_filesystem{ } filesystem{ ext4 }    \
                       label { recovery }                      \
                       mountpoint{ /boot/recovery }            \
               .                                               \
               10240 10240 10240 linux-swap                    \
-                      $lvmok{ } in_vg{ steamVG } lv_name{ swapLV }  \
                       method{ swap } format{ }                \
               .                                               \
               10240 128 100000000 ext4                        \
-                      $lvmok{ } in_vg{ steamVG } lv_name{ steamLV }  \
                       method{ format } format{ }              \
                       use_filesystem{ } filesystem{ ext4 }    \
                       label { steam }                         \
                       mountpoint{ /home }                     \
               .
-
-#d-i finish-install/reboot_in_progress note
-d-i preseed/late_command string /cdrom/steam-custom-post_install.sh
