@@ -37,14 +37,14 @@ for deb in `ls ${grubnewdeb}/*.deb`; do
 done
 
 #Rebuild cdrom archive
-archivefile="steam-archive.conf"
+archivefile="steamos-archive.conf"
 dists="alchemist testing"
 echo "Generating Packages"
 apt-ftparchive generate ${archivefile}
 
 for dist in ${dists}; do
 	echo "Generating release for ${dist}..."
-	if apt-ftparchive -c steam-archive.conf release ../dists/${dist} > ../dists/${dist}/Release; then
+	if apt-ftparchive -c ${archivefile} release ../dists/${dist} > ../dists/${dist}/Release; then
 		:
 	else
 		echo "Error generating repo for ${dist}"
@@ -55,4 +55,4 @@ done
 cp -pfr isolinux ..
 
 #Build our ISO
-./buildiso.sh
+./steamos-buildiso.sh
