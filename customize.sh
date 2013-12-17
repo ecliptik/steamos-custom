@@ -4,7 +4,7 @@
 #Check if dists/alchemist in the parent directory before running
 steamosfile="../dists/alchemist"
 
-if [ ! -f ${steamosfile} ]; then
+if [ ! -d ${steamosfile} ]; then
 	echo "File ${steamosfile} doesn't exist!"
 	echo "Did you clone steamos-custom into the SteamOSInstaller directory?"
 	exit 1
