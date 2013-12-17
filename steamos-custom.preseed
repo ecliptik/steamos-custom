@@ -10,10 +10,10 @@ d-i console-setup/ask_detect boolean false
 d-i keymap select us
 
 ### Network configuration
-# Disable network configuration entirely. This is useful for cdrom
-# installations on non-networked devices where the network questions,
-# warning and long timeouts are a nuisance.
-d-i netcfg/enable boolean false
+#Enable network configuration
+d-i netcfg/choose_interface select auto
+d-i netcfg/disable_dhcp boolean false
+d-i hw-detect/load_firmware boolean true
 # Disable that annoying WEP key dialog.
 d-i netcfg/wireless_wep string
 d-i   hw-detect/load_firmware boolean false
@@ -24,8 +24,8 @@ d-i netcfg/get_hostname string steamos
 # If you select ftp, the mirror/country string does not need to be set.
 #d-i mirror/protocol string ftp
 d-i mirror/country string manual
-d-i mirror/http/hostname string steamos-repo.valvesoftware.com
-d-i mirror/http/directory string /SteamOS
+d-i mirror/http/hostname string repo.steampowered.com
+d-i mirror/http/directory string /steamos
 d-i mirror/http/proxy string
 
 # Suite to install.
@@ -34,18 +34,16 @@ d-i mirror/http/proxy string
 #d-i mirror/udeb/suite string main
 
 ## Create root account
-d-i passwd/root-login boolean false
+d-i passwd/root-login boolean true
+d-i passwd/root-password password r00tme
+d-i passwd/root-password-again password r00tme
 
 # To create a normal user account.
 d-i passwd/user-fullname string SteamOS Desktop
 d-i passwd/username string desktop
-# User's password, either encrypted or in clear text
-# d-i passwd/user-password-crypted password \$1\$CAe/kArK\$dTflLRhLU4U73lBWvrTnw.
 d-i passwd/user-password password desktop
 d-i passwd/user-password-again password desktop
 d-i passwd/auto-login boolean true
-# The installer will warn about weak passwords. If you are sure you know
-# what you're doing and want to override it, uncomment this.
 d-i user-setup/allow-password-weak boolean true
 
 # You may set this to any valid setting for $TZ; see the contents of
@@ -103,7 +101,9 @@ d-i preseed/late_command string /cdrom/steamos-custom/steamos-custom-post_instal
 
 ### Partitioning
 #Install additional udebs and get the first disk automatically
-d-i partman/early_command string udpkg --unpack /cdrom/udebs/*.udeb ; udpkg --unpack /cdrom/pool/main/l/linux/*.udeb ; insmod /lib/modules/*/kernel/drivers/md/* ; debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
+#d-i partman/early_command string udpkg --unpack /cdrom/udebs/*.udeb ; udpkg --unpack /cdrom/pool/main/l/linux/*.udeb ; insmod /lib/modules/*/kernel/drivers/md/* ; debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
+d-i partman/early_command string debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
+
 ### Partman
 d-i partman-md/confirm boolean true
 d-i partman-md/device_remove_md boolean true
