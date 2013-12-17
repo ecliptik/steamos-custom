@@ -11,3 +11,6 @@ Features:
 
 Known Bugs:
 * Installer will fail on base-install, clicking continue a few times and contining the install will complete successfully
+
+Todo:
+* Enable LVM storage options, drop in code is commented out, but steamos installer kernel lacks LVM modules
