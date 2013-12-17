@@ -99,7 +99,7 @@ d-i pkgsel/upgrade select none
 popularity-contest popularity-contest/participate boolean false
 
 #d-i finish-install/reboot_in_progress note
-d-i preseed/late_command string /cdrom/steam-custom/steam-custom-post_install.sh
+d-i preseed/late_command string /cdrom/steamos-custom/steamos-custom-post_install.sh
 
 ### Partitioning
 #Install additional udebs and get the first disk automatically
