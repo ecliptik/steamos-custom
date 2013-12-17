@@ -1,9 +1,17 @@
 #!/bin/bash
 #Customize SteamOSInstaller
 
-deps="apt-utils genisoimage"
+#Check if dists/alchemist in the parent directory before running
+steamosfile="../dists/alchemist"
+
+if [ ! -f ${steamosfile} ]; then
+	echo "File ${steamosfile} doesn't exist!"
+	echo "Did you clone steamos-custom into the SteamOSInstaller directory?"
+	exit 1
+fi
 
 #Install apt dependencies
+deps="apt-utils genisoimage"
 if apt-get -y -qq install ${deps} >/dev/null 2>&1; then
 	:
 else
