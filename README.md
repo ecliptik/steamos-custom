@@ -14,6 +14,7 @@ Known Bugs:
 
 Todo:
 * Enable LVM storage options, drop in code is commented out, but steamos installer kernel lacks LVM modules
+* Rebuild grub-pc packages to clean up dependencies to avoid installer failures
 
 Requirements:
 * Debian or Ubuntu Linux
