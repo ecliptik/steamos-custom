@@ -5,7 +5,7 @@ Builds a customized SteamOS Installer ISO
 
 Features:
 * Removes grub-efi requirements and replaces them with Debian Wheezy grub-pc
-* Enables DHCP networkin during install
+* Enables DHCP networking during install
 * Enables root account
 * Choice of GTK or text install methods
 
