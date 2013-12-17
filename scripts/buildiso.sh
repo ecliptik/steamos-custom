@@ -1,5 +1,5 @@
 #!/bin/sh
-#Build an ISO one directory up out of the current directory
+#Build an ISO from one directory up
 
 outfile="../steamoscustom.iso"
 
@@ -10,4 +10,4 @@ fi
 
 mkisofs -o ${outfile} -b isolinux/isolinux.bin \
         -no-emul-boot -boot-load-size 4 \
-        -boot-info-table -r .
+        -boot-info-table -r ../
