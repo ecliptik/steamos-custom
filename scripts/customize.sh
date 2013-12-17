@@ -1,33 +1,18 @@
 #!/bin/bash
-#Customize SteamOSInstaller.zip
+#Customize SteamOSInstaller
 
-steamoszip="SteamOSInstaller.zip"
-steamosurl="http://repo.steampowered.com/download/${steamoszip}"
-vartmp="/var/tmp"
 localzip="${vartmp}/${steamoszip}"
+deps="apt-utils genisoimage"
+
+#Install apt dependencies
+if apt-get -y -qq install ${deps}; then
+	:
+else
+	echo "Error installing dependencies: ${deps}"
+fi
 
 if [ ! -d "${vartmp}" ]; then
 	echo "Temporary directory ${vartmp} doesn't exist!"
-fi
-
-#See if zip is already downloaded, if so skip it
-if [ -f ${localzip} ]; then
-	echo "Existing ${localzip} found skipping dowload"
-else
-	#Download zip file
-	echo "Downloading ${steamosurl} to ${vartmp}..."
-	if wget -P /var/tmp -q ${steamosurl}; then
-		echo "Downloaded ${steamosurl} to ${vartmp}"
-	else
-		echo "Error downloading ${steamosurl}"
-	fi
-fi
-
-#Extract the zip
-if unzip ${localzip}; then
-	:
-else
-	echo "Error extacting ${localzip}"
 fi
 
 grubpooldir="pool/main/g/grub2/"
@@ -38,8 +23,8 @@ for efideb in `ls pool/main/g/grub2/grub-efi*`; do
 done
 
 grubnewdeb="debs"
-for deb in `ls ${grubnewdeb}`; do
-	echo "Copying ${deb} into ${grubpooldir}"
+for deb in `ls ${grubnewdeb}/*.deb`; do
+	echo "Copying ${grubnewdeb}/${deb} into ${grubpooldir}"
 	cp ${deb} ${grubpooldir}
 done
 
