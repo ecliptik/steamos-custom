@@ -24,7 +24,7 @@ for deb in `ls ${grubnewdeb}/*.deb`; do
 	deb=`basename ${deb}`
 	if [ ! -f ${grubpooldir}/${deb} ]; then
 		echo "Copying ${grubnewdeb}/${deb} into ${grubpooldir}"
-		cp ${deb} ${grubpooldir}
+		cp ${grubnewdeb}/${deb} ${grubpooldir}
 	fi
 done
 
