@@ -11,7 +11,7 @@ Features:
 
 Known Bugs:
 * Installer will fail on base-install
- * Workaround: click continue a few times, choose "Install the base system" to complete, and choose yes
+ * Workaround: click continue a few times, choose "Install the base system", and choose yes to complete install
 
 Todo:
 * Enable LVM storage options, drop in code is commented out, but steamos installer kernel lacks LVM modules
