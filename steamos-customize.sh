@@ -51,8 +51,5 @@ for dist in ${dists}; do
 	fi
 done
 
-#Copy isolinux dir one up
-cp -pfr isolinux ..
-
 #Build our ISO
 ./steamos-buildiso.sh
