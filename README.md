@@ -10,7 +10,8 @@ Features:
 * Choice of GTK or text install methods
 
 Known Bugs:
-* Installer will fail on base-install, clicking continue a few times and contining the install will complete successfully
+* Installer will fail on base-install
+ * Workaround: click continue a few times, choose "Install the base system" to complete, and choose yes
 
 Todo:
 * Enable LVM storage options, drop in code is commented out, but steamos installer kernel lacks LVM modules
