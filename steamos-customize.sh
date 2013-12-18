@@ -1,6 +1,13 @@
 #!/bin/bash
 #Customize SteamOSInstaller
 
+#Check we are root first
+id=`id -u`
+if [ ${id} -ne 0 ]; then
+	echo "You must run this script as root or with sudo"
+	exit 1
+fi
+
 #Check if dists/alchemist in the parent directory before running
 steamosfile="../dists/alchemist"
 
