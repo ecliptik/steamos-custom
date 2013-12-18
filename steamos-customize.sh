@@ -25,17 +25,16 @@ else
 	echo "Error installing dependencies: ${deps}"
 fi
 
-grubpooldir="../pool/main/g/grub2/"
-#Remove the grub UEFI packages
-for efideb in `ls ${grubpooldir}/grub-efi*`; do
-	if [ -f ${efideb} ]; then
-		echo "Removing ${efideb}"
-		rm -fr "${efideb}"
+grubpooldir="../pool/main/g/grub2"
+for deb in `ls ${grubpooldir} | egrep -e "*.[u.]deb"`; do
+	if [ -f ${grubpooldir}/${deb} ]; then
+		echo "Removing file ${grubpooldir}/${deb}"
+		rm -fr "${grubpooldir}/${deb}"
 	fi
 done
 
 grubnewdeb="debs"
-for deb in `ls ${grubnewdeb}/*.deb`; do
+for deb in `ls ${grubnewdeb} | egrep -e "*.[u.]deb"`; do
 	deb=`basename ${deb}`
 	if [ ! -f ${grubpooldir}/${deb} ]; then
 		echo "Copying ${grubnewdeb}/${deb} into ${grubpooldir}"
